@@ -1,0 +1,24 @@
+<template>
+    <div class="slds-grid slds-grid_vertical slds-grid_align-center slds-var-p-around_small">
+        <c-search-control classes="slds-col slds-size_1-of-4 slds-var-m-bottom_small slds-col_bump-left" onsearch={handleSearch}></c-search-control>
+        <div class="slds-col slds-is-relative custom-datatable-container">
+            <lightning-datatable key-field="Id" data={records} columns={columns} onloadmore={fetchRecords}
+                enable-infinite-loading hide-checkbox-column show-row-number-column if:false={loadingFirstPage}>
+            </lightning-datatable>
+            <div if:true={loadingFirstPage}>
+                <div role="status" class="slds-spinner slds-spinner_large slds-spinner_brand">
+                    <span class="slds-assistive-text">Loading</span>
+                    <div class="slds-spinner__dot-a"></div>
+                    <div class="slds-spinner__dot-b"></div>
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-is-relative custom-load-more-spinner" if:true={loadingNextPage}>
+            <div role="status" class="slds-spinner slds-spinner_small slds-spinner_brand">
+                <span class="slds-assistive-text">Loading</span>
+                <div class="slds-spinner__dot-a"></div>
+                <div class="slds-spinner__dot-b"></div>
+            </div>
+        </div>
+    </div>
+</template>

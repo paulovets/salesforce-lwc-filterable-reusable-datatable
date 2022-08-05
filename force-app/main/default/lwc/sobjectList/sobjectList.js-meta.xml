@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
+    <apiVersion>55.0</apiVersion>
+    <isExposed>true</isExposed>
+    <targets>
+        <target>lightning__RecordPage</target>
+    </targets>
+    <targetConfigs>
+        <targetConfig targets="lightning__RecordPage">
+            <property name="sobjectAPIName" label="Sobject API Name" type="String" default="Account" required="true" />
+            <property name="fieldSetAPIName" label="Field Set API Name" type="String" default="LWCSobjectList" required="true" />
+            <property name="pageSize" label="Page Size" type="Integer" default="20" required="true" />
+        </targetConfig>
+    </targetConfigs>
+</LightningComponentBundle>
