@@ -14,7 +14,7 @@ An extensible and reusable skeleton of an LWC-driven project, which can be used 
 </ul>
 
 # Diagrams
-
+## Apex
 ![Diagram](/apex.drawio.png "APEX Diagram")
 
 # Demo
