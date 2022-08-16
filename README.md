@@ -13,12 +13,11 @@ An extensible and reusable skeleton of an LWC-driven project, which can be used 
     <li>Fieldset-driven filters. Currently implemented for picklist and multipicklist field types only. More or less easily extensible, for example - have a look at the already supported ones.</li>
 </ul>
 
-# Demo
-
-![Demo](/demo.gif)
 # Diagrams
 
 <h4>Apex</h4>
-![Diagram](/datatable.apex.drawio.png "APEX Diagram")
-<h4>LWC</h4>
-![Diagram](/datatable.lwc.drawio.png "LWC Diagram")
+![Diagram](/apex.drawio.png "APEX Diagram")
+
+# Demo
+
+![Demo](/demo.gif)
