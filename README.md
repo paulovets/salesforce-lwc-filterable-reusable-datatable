@@ -1,18 +1,24 @@
-# Salesforce DX Project: Next Steps
+# Salesforce lwc reusable datatable
 
-Now that you’ve created a Salesforce DX project, what’s next? Here are some documentation resources to get you started.
+An extensible and reusable skeleton of an LWC-driven project, which can be used for data analysis-related tasks for a distinct Sobject within your Salesforce org.
 
-## How Do You Plan to Deploy Your Changes?
+# Features
+<ul>
+    <li>Fieldset driven datatable;</li>
+    <li>Infinite loading, by default based on Id ascending order;</li>
+    <li>Sorting by following fields: Id; unique and not nullable; autonumber; datetime(won't work if data inserted programmatically, because in such case the records would have the same timestamp). Shortly, to support the infinite loading - we must sort by unique fields only;</li>
+    <li>Automatically makes it possible to reveal a parent record in a new tab by adding links to a parent text fields;</li>
+    <li>SOSL driven search in all searchable field;</li>
+    <li>Fieldset driven preview, doesn't support relationship fields;</li>
+    <li>Fieldset-driven filters. Currently implemented for picklist and multipicklist field types only. More or less easily extensible, for example - have a look at the already supported ones.</li>
+</ul>
 
-Do you want to deploy a set of changes, or create a self-contained application? Choose a [development model](https://developer.salesforce.com/tools/vscode/en/user-guide/development-models).
+# Demo
 
-## Configure Your Salesforce DX Project
+![Demo](/demo.gif)
+# Diagrams
 
-The `sfdx-project.json` file contains useful configuration information for your project. See [Salesforce DX Project Configuration](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_ws_config.htm) in the _Salesforce DX Developer Guide_ for details about this file.
-
-## Read All About It
-
-- [Salesforce Extensions Documentation](https://developer.salesforce.com/tools/vscode/)
-- [Salesforce CLI Setup Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_intro.htm)
-- [Salesforce DX Developer Guide](https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_intro.htm)
-- [Salesforce CLI Command Reference](https://developer.salesforce.com/docs/atlas.en-us.sfdx_cli_reference.meta/sfdx_cli_reference/cli_reference.htm)
+<h4>Apex</h4>
+![Diagram](/datatable.apex.drawio.png "APEX Diagram")
+<h4>LWC</h4>
+![Diagram](/datatable.lwc.drawio.png "LWC Diagram")

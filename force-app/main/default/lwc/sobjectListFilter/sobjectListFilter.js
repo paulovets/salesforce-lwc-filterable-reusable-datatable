@@ -5,16 +5,16 @@ export default class SobjectListFilter extends LightningElement {
     @api
     filterConfig;
 
-    value;
+    isActive;
 
     _handler;
 
     get iconVariant() {
-        return this.value ? 'inverse' : null;
+        return this.isActive ? 'inverse' : null;
     }
 
     get badgeClasses() {
-        const badgeStyle = this.value ? 'slds-theme_success' : 'slds-badge_lightest';
+        const badgeStyle = this.isActive ? 'slds-theme_success' : 'slds-badge_lightest';
 
         return `slds-badge ${badgeStyle} slds-var-p-around_medium`;
     }
@@ -53,7 +53,9 @@ export default class SobjectListFilter extends LightningElement {
     }
 
     handleFilterAdded(event) {
-        this.value = event.detail.fieldName;
+        this.isActive = (event.detail.valuesIn || []).length != 0 ||
+            event.detail.valueFrom ||
+            event.detail.valueTo;
     }
 
     stopPropogation(event) {

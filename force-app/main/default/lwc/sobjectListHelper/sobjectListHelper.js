@@ -11,16 +11,14 @@ const action = {
 function buildColumns(apexFieldsConfigurations) {
     const mapType = (config) => {
         const type = config.type.toLowerCase();
-
-        let result;
         switch (type) {
             case "string":
                 let pathParts = config.fieldName.split(".");
                 if (pathParts.length === 1 && pathParts[1] !== "Id") {
-                    result = { type : "text" };
+                    return { type : "text" };
                 }
-                
-                result = {
+
+                return {
                     fieldName: `${pathParts[0]}.Url`,
                     type: 'url',
                     typeAttributes: {
@@ -29,7 +27,7 @@ function buildColumns(apexFieldsConfigurations) {
                     }
                 };
             case "datetime":
-                result = { 
+                return { 
                     type : "date",
                     typeAttributes:{
                         year: "numeric",
@@ -41,12 +39,10 @@ function buildColumns(apexFieldsConfigurations) {
                     }
                 };
             case "date":
-                result = { type : "date-local" };
+                return { type : "date-local" };
             default:
-                result = { type: type };
+                return { type: type };
           }
-
-          return result;
     };
 
     return [action].concat(
