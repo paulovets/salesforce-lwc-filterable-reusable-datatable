@@ -1,0 +1,9 @@
+.slds-modal, .slds-backdrop {
+    position: absolute;
+}
+
+.slds-modal > .slds-modal__container > .slds-modal__header > .slds-modal__close {
+    top: 50%;
+    transform: translateY(-50%);
+    right: 0.5rem;
+}

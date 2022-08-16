@@ -1,23 +1,35 @@
+const action = {
+    type: 'action',
+    typeAttributes: { 
+        rowActions: [
+            { label: 'Show details', name: 'show_details' }
+        ] 
+    },
+    cellAttributes: { alignment: 'right' },
+};
+
 function buildColumns(apexFieldsConfigurations) {
     const mapType = (config) => {
-        const result = { type : config.type.toLowerCase() };
-        switch (result.type) {
+        const type = config.type.toLowerCase();
+
+        let result;
+        switch (type) {
             case "string":
                 let pathParts = config.fieldName.split(".");
                 if (pathParts.length === 1 && pathParts[1] !== "Id") {
-                    return { type : "text" };
+                    result = { type : "text" };
                 }
                 
-                return {
+                result = {
                     fieldName: `${pathParts[0]}.Url`,
                     type: 'url',
                     typeAttributes: {
                         label: { fieldName: config.fieldName }, 
                         target: '_blank'
                     }
-                }
+                };
             case "datetime":
-                return { 
+                result = { 
                     type : "date",
                     typeAttributes:{
                         year: "numeric",
@@ -29,17 +41,21 @@ function buildColumns(apexFieldsConfigurations) {
                     }
                 };
             case "date":
-                return { type : "date-local" };
+                result = { type : "date-local" };
             default:
-                return result;
+                result = { type: type };
           }
+
+          return result;
     };
 
-    return apexFieldsConfigurations
-        .filter((config) => config.label )
-        .map((config) => {
-            return { ...config, ...mapType(config) };
-        });
+    return [action].concat(
+        apexFieldsConfigurations
+            .filter((config) => config.label )
+            .map((config) => {
+                return { ...config, ...mapType(config) };
+            })
+    )
 }
 
 function buildRecords(apexRecords) {

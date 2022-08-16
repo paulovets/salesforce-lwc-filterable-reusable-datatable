@@ -1,0 +1,16 @@
+<template>
+    <div class="slds-grid slds-grid_vertical-align-center slds-wrap">
+        <lightning-button-menu alternative-text="Show menu" variant="border-filled" icon-name="utility:add"
+            class="col slds-m-right_small" onselect={handleMenuSelect}>
+            <template for:each={filtersToAdd} for:item="filter">
+                <lightning-menu-item value={filter.fieldName} label={filter.label} key={filter.fieldName}></lightning-menu-item>
+            </template>
+        </lightning-button-menu>
+        <div class="slds-col slds-var-m-right_x-small" for:each={addedFilters} for:item="filter" key={filter.fieldName}>
+            <c-sobject-list-filter filter-config={filter} onfilteradd={handleFilterAdded} onfilterremove={handleRemoval}>
+                <c-picklist-filter if:true={filter.isPicklist} filter-config={filter}></c-picklist-filter>
+                <c-multipicklist-filter if:true={filter.isMultipicklist} filter-config={filter}></c-multipicklist-filter>
+            </c-sobject-list-filter>
+        </div>
+    </div>
+</template>

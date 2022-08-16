@@ -1,0 +1,15 @@
+<template>
+    <span class={badgeClasses} onclick={toggle}>
+        {filterConfig.label}
+        <button class="slds-button slds-button_icon slds-button_icon slds-pill__remove" onclick={remove} title="Remove">
+            <lightning-icon icon-name="utility:close" alternative-text="Close" title="Close" size="small" variant={iconVariant}>
+            </lightning-icon>
+            <span class="slds-assistive-text">Remove</span>
+        </button>
+        <div class="slds-popover slds-popover_small slds-hide" role="tooltip" id="tooltip" onclick={stopPropogation}>
+            <div class="slds-popover__body" onfilteradd={handleFilterAdded}>
+                <slot></slot>
+            </div>
+        </div>
+    </span>
+</template>

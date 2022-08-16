@@ -1,0 +1,15 @@
+.slds-badge {
+    position: relative;
+    cursor: pointer;
+}
+
+.slds-popover {
+    position: absolute; 
+    left: 0; 
+    top: 33px;
+}
+
+.slds-popover__body {
+    overflow-y: auto;
+    max-height: 300px;
+}

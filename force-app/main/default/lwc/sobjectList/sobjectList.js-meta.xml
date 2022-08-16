@@ -8,7 +8,9 @@
     <targetConfigs>
         <targetConfig targets="lightning__RecordPage">
             <property name="sobjectAPIName" label="Sobject API Name" type="String" default="Account" required="true" />
-            <property name="fieldSetAPIName" label="Field Set API Name" type="String" default="LWCSobjectList" required="true" />
+            <property name="tableFieldSetAPIName" label="Table Field Set API Name" type="String" default="LWCSobjectList" required="true" />
+            <property name="previewFieldSetAPIName" label="Preview Field Set API Name" type="String" default="LWCSobjectListPreview" required="true" />
+            <property name="filtersFieldSetAPIName" label="Filter Field Set API Name" type="String" default="LWCSobjectListFilter" required="true" />
             <property name="pageSize" label="Page Size" type="Integer" default="20" required="true" />
         </targetConfig>
     </targetConfigs>

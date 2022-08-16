@@ -1,5 +1,3 @@
 <template>
-    <div class={classes}>
-        <lightning-input type="text" label={label} onkeyup={receiveKeyUpEvent}></lightning-input>
-    </div>
+    <lightning-input type="search" label={label} onkeyup={handleChange} onchange={handleChange}></lightning-input>
 </template>

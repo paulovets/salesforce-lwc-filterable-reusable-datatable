@@ -3,12 +3,11 @@ import { LightningElement, api } from 'lwc';
 export default class SearchControl extends LightningElement {
 
     @api debounce = 500;
-    @api classes;
     @api label = "Search for: ";
 
     timeoutID;
 
-    receiveKeyUpEvent(event) {
+    handleChange(event) {
         if (this.timeoutID) {
             clearTimeout(this.timeoutID);
         }

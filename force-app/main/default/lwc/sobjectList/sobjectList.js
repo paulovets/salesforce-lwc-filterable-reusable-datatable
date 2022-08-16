@@ -7,7 +7,9 @@ export default class SobjectList extends LightningElement {
 
     @api recordId;
     @api sobjectAPIName;
-    @api fieldSetAPIName;
+    @api tableFieldSetAPIName;
+    @api previewFieldSetAPIName;
+    @api filtersFieldSetAPIName;
     @api pageSize;
 
     @track columns = [];
@@ -15,26 +17,39 @@ export default class SobjectList extends LightningElement {
     @track error;
 
     fieldsToFetch;
-    lastFetchedId;
+    lastFetchedRecord;
     lastFetchedPageSize = this.pageSize;
     searchString;
 
     loadingFirstPage = true;
     loadingNextPage = false;
+
+    previewFieldsPaths;
+    filterFieldSet;
+
+    filters = [];
+
+    sortDirection = 'asc';
+    sortedBy = 'Id';
     
     connectedCallback() {
-        this.fetchFieldsConfiguration()
+        this.fetchFieldsConfiguration();
     }
 
     fetchFieldsConfiguration() {
         getFieldsConfiguration({
                 sobjectAPIName: this.sobjectAPIName, 
-                fieldSetAPIName: this.fieldSetAPIName
+                tableFieldSetAPIName: this.tableFieldSetAPIName,
+                previewFieldSetAPIName: this.previewFieldSetAPIName,
+                filtersFieldSetAPIName: this.filtersFieldSetAPIName
             })
             .then(result => {
-                this.buildColumnsAndPerformFirstFetch(result);
+                this.previewFieldsPaths = result.previewFieldPathSet;
+                this.filterFieldSet = result.filterFieldSet;
+                this.buildColumnsAndPerformFirstFetch(result.tableFieldSet);
             })
             .catch(error => {
+                debugger;
                 this.error = error;
             });
     }
@@ -52,7 +67,7 @@ export default class SobjectList extends LightningElement {
             return;
         }
 
-        if (this.lastFetchedId) {
+        if (this.lastFetchedRecord) {
             this.loadingNextPage = true;
         }
 
@@ -60,8 +75,11 @@ export default class SobjectList extends LightningElement {
                 sobjectAPIName: this.sobjectAPIName, 
                 fieldsToFetch: this.fieldsToFetch,
                 pageSize: this.pageSize, 
-                lastFetchedId: this.lastFetchedId,
-                searchString: this.searchString
+                lastFetchedRecord: this.lastFetchedRecord,
+                searchString: this.searchString,
+                filtersJSON: JSON.stringify(this.filters),
+                sortedBy: this.sortedBy,
+                sortDirection: this.sortDirection
             })
             .then(result => {
                 this.handleResponse(result);
@@ -76,7 +94,7 @@ export default class SobjectList extends LightningElement {
     handleResponse(result) {
         this.records = this.records.concat(buildRecords(result));
         this.lastFetchedPageSize = result.length;
-        this.lastFetchedId = result[result.length - 1].Id;
+        this.lastFetchedRecord = result[result.length - 1];
     }
 
     disableSpinners() {
@@ -85,7 +103,7 @@ export default class SobjectList extends LightningElement {
     }
 
     resetPagination() {
-        this.lastFetchedId = null;
+        this.lastFetchedRecord = null;
         this.lastFetchedPageSize = this.pageSize;
         this.records = [];
         this.loadingFirstPage = true;
@@ -94,6 +112,55 @@ export default class SobjectList extends LightningElement {
     handleSearch(event) {
         this.searchString = event.detail;
         
+        this.resetPagination();
+
+        this.fetchRecords();
+    }
+
+    handleRowAction(event) {
+        const actionName = event.detail.action.name;
+        switch (actionName) {
+            case 'show_details':
+                this.template.querySelector('c-record-preview').open(this.sobjectAPIName,
+                                                                     this.previewFieldsPaths,
+                                                                     event.detail.row.Id);
+                break;
+            default:
+        }
+    }
+
+    handleFilterAdded(event) {
+        const foundFilterIndex = this.filters.findIndex((filter) => filter.fieldName === event.detail.fieldName);
+        if (foundFilterIndex !== -1) {
+            this.filters.splice(foundFilterIndex, 1);
+        }
+
+        this.filters.push(event.detail);
+
+        this.resetPagination();
+
+        this.fetchRecords();
+    }
+
+    handleFilterRemoved(event) {
+        const foundFilterIndex = this.filters.findIndex((filter) => filter.fieldName === event.detail.fieldName);
+        if (foundFilterIndex === -1) {
+            return;
+        }
+
+        this.filters.splice(foundFilterIndex, 1);
+
+        this.resetPagination();
+
+        this.fetchRecords();
+    }
+
+    handleSort(event) {
+        const { fieldName:sortedBy, sortDirection } = event.detail;
+        
+        this.sortedBy = sortedBy;
+        this.sortDirection = sortDirection;
+
         this.resetPagination();
 
         this.fetchRecords();
