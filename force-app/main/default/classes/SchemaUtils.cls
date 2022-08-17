@@ -34,6 +34,30 @@ public without sharing class SchemaUtils {
         return new List<Schema.PicklistEntry>();
     }
 
+    public static String findReferenceFieldAPIName(String objectAPIName, Id parentRecordId) {
+        final String parentSobjectAPIName = parentRecordId.getSObjectType().getDescribe().getName();
+
+        final List<Schema.SObjectField> fields = Schema.getGlobalDescribe()
+            .get(objectAPIName)
+            .getDescribe()
+            .fields
+            .getMap()
+            .values();
+
+        for (Schema.SObjectField field : fields) {
+            final List <Schema.SobjectType> references = field.getDescribe().getReferenceTo();
+            if (references.isEmpty()) {
+                continue;
+            }
+
+            if (references.get(0).getDescribe().getName() == parentSobjectAPIName) {
+                return field.getDescribe().getName();
+            }
+        }
+
+        return null;
+    }
+
     private static Schema.DescribeFieldResult getFieldDescribe(String objectAPIName, String fieldAPIName) {
         return getFieldDescribeUtility(objectAPIName, fieldAPIName.split('\\.'));
     }

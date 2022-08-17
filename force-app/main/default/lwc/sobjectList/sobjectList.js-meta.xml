@@ -4,9 +4,10 @@
     <isExposed>true</isExposed>
     <targets>
         <target>lightning__RecordPage</target>
+        <target>lightning__HomePage</target>
     </targets>
     <targetConfigs>
-        <targetConfig targets="lightning__RecordPage">
+        <targetConfig targets="lightning__RecordPage,lightning__HomePage">
             <property name="sobjectAPIName" label="Sobject API Name" type="String" default="Account" required="true" />
             <property name="tableFieldSetAPIName" label="Table Field Set API Name" type="String" default="LWCSobjectList" required="true" />
             <property name="previewFieldSetAPIName" label="Preview Field Set API Name" type="String" default="LWCSobjectListPreview" required="true" />

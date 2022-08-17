@@ -1,6 +1,7 @@
 public inherited sharing class LWCSobjectListDatabaseService {
 
     public static List<Sobject> getSobjectList(String sobjectAPIName, 
+                                               String parentRecordId,
                                                List<String> fieldsToFetch,
                                                Integer pageSize,
                                                Sobject lastFetchedRecord,
@@ -11,6 +12,7 @@ public inherited sharing class LWCSobjectListDatabaseService {
         if (String.isBlank(searchString)) {
             return executeSoql(
                 sobjectAPIName,
+                parentRecordId,
                 fieldsToFetch,
                 pageSize,
                 lastFetchedRecord,
@@ -22,6 +24,7 @@ public inherited sharing class LWCSobjectListDatabaseService {
         
         return executeSosl(
             sobjectAPIName,
+            parentRecordId,
             fieldsToFetch,
             pageSize,
             lastFetchedRecord,
@@ -33,6 +36,7 @@ public inherited sharing class LWCSobjectListDatabaseService {
     }
     
     private static List<Sobject> executeSoql(String sobjectAPIName, 
+                                             String parentRecordId,
                                              List<String> fieldsToFetch,
                                              Integer pageSize,
                                              Sobject lastFetchedRecord,
@@ -41,6 +45,8 @@ public inherited sharing class LWCSobjectListDatabaseService {
                                              String sortDirection) {
         final Query query = new Query(sobjectAPIName).
             selectFields(fieldsToFetch);
+
+        appendParentRecordConditionIfApplicable(query, sobjectAPIName, parentRecordId);
 
         appendConditions(query, conditions);
 
@@ -52,6 +58,7 @@ public inherited sharing class LWCSobjectListDatabaseService {
     }
 
     private static List<Sobject> executeSosl(String sobjectAPIName, 
+                                             String parentRecordId,
                                              List<String> fieldsToFetch,
                                              Integer pageSize,
                                              Sobject lastFetchedRecord,
@@ -66,6 +73,8 @@ public inherited sharing class LWCSobjectListDatabaseService {
             .inAllFields()
             .returning(sobjectAPIName)
             .selectFields(new Set<String>(fieldsToFetch));
+
+        appendParentRecordConditionIfApplicable(query, sobjectAPIName, parentRecordId);
         
         appendConditions(query, conditions);
 
@@ -75,6 +84,20 @@ public inherited sharing class LWCSobjectListDatabaseService {
             .setLimit(pageSize)
             .run()
             .get(0);
+    }
+
+    private static void appendParentRecordConditionIfApplicable(IQuery query, String sobjectAPIName, String parentRecordId) {
+        if (String.isBlank(parentRecordId)) {
+            return;
+        }
+
+        final String referenceFieldAPIName = SchemaUtils.findReferenceFieldAPIName(sobjectAPIName, parentRecordId);
+
+        if (String.isBlank(referenceFieldAPIName)) {
+            return;
+        }
+
+        query.addConditionEq(referenceFieldAPIName, parentRecordId);
     }
 
     private static void appendConditions(IQuery query, List<QueryCondition> conditions) {

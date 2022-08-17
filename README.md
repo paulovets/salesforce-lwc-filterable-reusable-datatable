@@ -11,6 +11,7 @@ An extensible and reusable skeleton of an LWC-driven project, which can be used 
     <li>SOSL driven search in all searchable field;</li>
     <li>Fieldset driven preview, doesn't support relationship fields;</li>
     <li>Fieldset-driven filters. Currently implemented for picklist and multipicklist field types only. More or less easily extensible, for example - have a look at the already supported ones.</li>
+    <li>Record and home pages;</li>
 </ul>
 
 # Diagrams
@@ -22,4 +23,4 @@ An extensible and reusable skeleton of an LWC-driven project, which can be used 
 
 # Demo
 
-![Demo](/readme-resources/demo.gif)
+[Demo video](https://youtu.be/eqBzcH1c-9Q "Demo video")

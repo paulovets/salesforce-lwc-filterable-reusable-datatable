@@ -73,6 +73,7 @@ export default class SobjectList extends LightningElement {
 
         getSobjectList({
                 sobjectAPIName: this.sobjectAPIName, 
+                parentRecordId: this.recordId,
                 fieldsToFetch: this.fieldsToFetch,
                 pageSize: this.pageSize, 
                 lastFetchedRecord: this.lastFetchedRecord,

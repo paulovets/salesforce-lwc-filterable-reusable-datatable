@@ -2,6 +2,7 @@ public with sharing class LWCSobjectListController {
 
     @AuraEnabled(cacheable=true)
     public static List<Sobject> getSobjectList(String sobjectAPIName, 
+                                               String parentRecordId,
                                                List<String> fieldsToFetch,
                                                Integer pageSize,
                                                Sobject lastFetchedRecord,
@@ -11,6 +12,7 @@ public with sharing class LWCSobjectListController {
                                                String sortDirection) {
         return LWCSobjectListDatabaseService.getSobjectList(
             sobjectAPIName,
+            parentRecordId,
             fieldsToFetch,
             pageSize,
             lastFetchedRecord,
