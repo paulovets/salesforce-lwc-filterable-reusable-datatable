@@ -15,8 +15,11 @@ An extensible and reusable skeleton of an LWC-driven project, which can be used 
 
 # Diagrams
 ## Apex
-![Diagram](/apex.drawio.png "APEX Diagram")
+![Diagram](/readme-resources/apex.drawio.png "APEX Diagram")
+
+## LWC
+![Diagram](/readme-resources/lwc.drawio.png "LWC Diagram")
 
 # Demo
 
-![Demo](/demo.gif)
+![Demo](/readme-resources/demo.gif)
